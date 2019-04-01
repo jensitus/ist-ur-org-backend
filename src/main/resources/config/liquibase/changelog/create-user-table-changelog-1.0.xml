@@ -19,4 +19,11 @@
             <dropTable tableName="users"/>
         </rollback>
     </changeSet>
+
+    <changeSet author="jensitus" id="addColumn-created_at">
+        <addColumn tableName="users">
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
