@@ -25,5 +25,25 @@
             <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="add_role_table" author="jensitus">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="VARCHAR(40)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="rename_name_to_username" author="jensitus">
+        <renameColumn tableName="users" oldColumnName="name" newColumnName="username" />
+    </changeSet>
+
+    <changeSet id="add_password_to_users_and_uniqueconstraint" author="jensitus">
+        <addColumn tableName="users">
+            <column name="password" />
+        </addColumn>
+        <addUniqueConstraint tableName="users" columnNames="username" />
+    </changeSet>
 
 </databaseChangeLog>
