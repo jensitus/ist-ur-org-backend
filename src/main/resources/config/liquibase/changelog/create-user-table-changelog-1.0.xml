@@ -41,9 +41,26 @@
 
     <changeSet id="add_password_to_users_and_uniqueconstraint" author="jensitus">
         <addColumn tableName="users">
-            <column name="password" />
+            <column name="password" type="VARCHAR(255)"/>
         </addColumn>
         <addUniqueConstraint tableName="users" columnNames="username" />
+    </changeSet>
+
+    <changeSet id="insert_roles" author="jensitus">
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"></column>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"></column>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="create_join_table" author="jensitus">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT"></column>
+            <column name="role_id" type="INT"></column>
+        </createTable>
+        <addUniqueConstraint tableName="user_roles" columnNames="user_id, role_id" />
     </changeSet>
 
 </databaseChangeLog>
