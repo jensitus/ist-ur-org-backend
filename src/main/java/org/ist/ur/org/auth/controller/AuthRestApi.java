@@ -89,7 +89,7 @@ public class AuthRestApi {
     user.setRoles(roles);
     userRepo.save(user);
 
-    return ResponseEntity.ok().body("It is a god damn pretty cool");
+    return new ResponseEntity<String>("It is a god damn pretty cool", HttpStatus.CREATED);
   }
 
   @GetMapping("/mist")

@@ -23,7 +23,7 @@ public class JwtProvider {
 
   public String generateJwtToken(Authentication authentication) {
     UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-    return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpiration)).signWith(SignatureAlgorithm.ES512, jwtSecret).compact();
+    return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpiration)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
   }
 
   public String getUsernameFromJwtToken(String token) {
