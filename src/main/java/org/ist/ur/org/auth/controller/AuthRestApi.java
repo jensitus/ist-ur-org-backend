@@ -9,6 +9,8 @@ import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.repository.RoleRepo;
 import org.ist.ur.org.auth.repository.UserRepo;
 import org.ist.ur.org.auth.security.JwtProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthRestApi {
+
+  private static final Logger logger = LoggerFactory.getLogger(AuthRestApi.class);
 
   @Autowired
   AuthenticationManager authenticationManager;
@@ -51,7 +55,7 @@ public class AuthRestApi {
     return ResponseEntity.ok(new JwtResponse(jwt));
   }
 
-  @PostMapping("/signup")
+  @PostMapping(value = "/signup", consumes = {})
   public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
 
     // check if user or email already present
@@ -63,7 +67,12 @@ public class AuthRestApi {
     }
 
     // create the new user:
+    logger.info("signUpRequest " + signUpRequest.toString());
     User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+    Role uRole = new Role(RoleName.ROLE_USER);
+    Set<String> roleSet = new HashSet<>();
+    roleSet.add(uRole.getName().toString());
+    signUpRequest.setRole(roleSet);
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();
     strRoles.forEach(role -> {
@@ -81,6 +90,11 @@ public class AuthRestApi {
     userRepo.save(user);
 
     return ResponseEntity.ok().body("It is a god damn pretty cool");
+  }
+
+  @GetMapping("/mist")
+  public String mist(){
+    return "Hi du verdammter Mistkerl";
   }
 
 }
