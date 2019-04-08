@@ -25,5 +25,42 @@
             <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="add_role_table" author="jensitus">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="VARCHAR(40)" />
+        </createTable>
+    </changeSet>
+
+    <changeSet id="rename_name_to_username" author="jensitus">
+        <renameColumn tableName="users" oldColumnName="name" newColumnName="username" />
+    </changeSet>
+
+    <changeSet id="add_password_to_users_and_uniqueconstraint" author="jensitus">
+        <addColumn tableName="users">
+            <column name="password" type="VARCHAR(255)"/>
+        </addColumn>
+        <addUniqueConstraint tableName="users" columnNames="username" />
+    </changeSet>
+
+    <changeSet id="insert_roles" author="jensitus">
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"></column>
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"></column>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="create_join_table" author="jensitus">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT"></column>
+            <column name="role_id" type="INT"></column>
+        </createTable>
+        <addUniqueConstraint tableName="user_roles" columnNames="user_id, role_id" />
+    </changeSet>
 
 </databaseChangeLog>
