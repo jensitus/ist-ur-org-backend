@@ -1,5 +1,6 @@
 package org.ist.ur.org.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class User {
 
   @Column(name = "password")
   @NotNull
+  @JsonIgnore
   private String password;
 
   @ManyToMany(fetch = FetchType.LAZY)
