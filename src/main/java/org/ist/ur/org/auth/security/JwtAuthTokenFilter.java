@@ -30,6 +30,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     try {
       String jwt = getJwt(request);
+//      boolean jwtValid = tokenProvider.validateJwtToken(jwt);
       if (jwt != null && tokenProvider.validateJwtToken(jwt)) {
         String username = tokenProvider.getUsernameFromJwtToken(jwt);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);

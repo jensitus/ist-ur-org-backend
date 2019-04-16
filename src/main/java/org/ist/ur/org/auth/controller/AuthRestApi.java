@@ -2,12 +2,15 @@ package org.ist.ur.org.auth.controller;
 
 import org.ist.ur.org.auth.message.JwtResponse;
 import org.ist.ur.org.auth.message.LoginForm;
+import org.ist.ur.org.auth.message.PasswordResetForm;
 import org.ist.ur.org.auth.message.SignUpForm;
+import org.ist.ur.org.auth.model.PasswordResetToken;
 import org.ist.ur.org.auth.model.Role;
 import org.ist.ur.org.auth.model.RoleName;
 import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.repository.RoleRepo;
 import org.ist.ur.org.auth.repository.UserRepo;
+import org.ist.ur.org.auth.repository.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +49,9 @@ public class AuthRestApi {
 
   @Autowired
   JwtProvider jwtProvider;
+
+  @Autowired
+  private UserService userService;
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
@@ -95,6 +101,16 @@ public class AuthRestApi {
   @GetMapping("/mist")
   public String mist(){
     return "Hi du verdammter Mistkerl";
+  }
+
+  @PostMapping("/reset_password")
+  public void resetPassword(@RequestBody PasswordResetForm passwordResetForm) {
+    logger.info(passwordResetForm.toString());
+    logger.info(passwordResetForm.getEmail());
+    User user = userRepo.findByEmail(passwordResetForm.getEmail());
+    logger.info(user.toString());
+    logger.info(user.getUsername());
+    userService.createPasswordResetTokenForUser(user);
   }
 
 }
