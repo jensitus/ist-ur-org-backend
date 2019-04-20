@@ -6,4 +6,5 @@ public interface UserService {
 
   void createPasswordResetTokenForUser(User user);
 
+  void checkResetToken(String base64Token);
 }

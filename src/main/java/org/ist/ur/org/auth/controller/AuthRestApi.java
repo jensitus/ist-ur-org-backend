@@ -104,13 +104,20 @@ public class AuthRestApi {
   }
 
   @PostMapping("/reset_password")
-  public void resetPassword(@RequestBody PasswordResetForm passwordResetForm) {
-    logger.info(passwordResetForm.toString());
-    logger.info(passwordResetForm.getEmail());
+  public ResponseEntity<String> resetPassword(@RequestBody PasswordResetForm passwordResetForm) {
     User user = userRepo.findByEmail(passwordResetForm.getEmail());
-    logger.info(user.toString());
-    logger.info(user.getUsername());
+    if (user == null) {
+      logger.info("no user with email: " + passwordResetForm.getEmail() + " found");
+      return new ResponseEntity<>("Die Emailadresse gibt es nicht", HttpStatus.NOT_FOUND);
+    }
+    logger.info("user found: " + user.getUsername() + " " + user.getEmail());
     userService.createPasswordResetTokenForUser(user);
+    return new ResponseEntity<>("Schauns ins Postfach", HttpStatus.I_AM_A_TEAPOT);
+  }
+
+  @GetMapping("reset_password")
+  public void resetPassword(@RequestParam("token") String base64Token) {
+
   }
 
 }

@@ -1,9 +1,11 @@
 package org.ist.ur.org.auth.security;
 
 import io.jsonwebtoken.*;
+import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.services.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -21,9 +23,16 @@ public class JwtProvider {
   @Value("${ist.ur.org.app.jwtExpiration}")
   private int jwtExpiration;
 
+  @Value("${ist.ur.org.app.jwtResetExpiration}")
+  private int resetExpiration;
+
   public String generateJwtToken(Authentication authentication) {
     UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
     return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + jwtExpiration)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+  }
+
+  public String generatePasswordResetToken(User user) {
+    return Jwts.builder().setSubject(user.getUsername()).setIssuedAt(new Date()).setExpiration(new Date((new Date()).getTime() + resetExpiration)).signWith(SignatureAlgorithm.HS256, jwtSecret).compact();
   }
 
   public String getUsernameFromJwtToken(String token) {
