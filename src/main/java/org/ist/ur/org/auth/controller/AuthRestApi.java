@@ -4,7 +4,6 @@ import org.ist.ur.org.auth.message.JwtResponse;
 import org.ist.ur.org.auth.message.LoginForm;
 import org.ist.ur.org.auth.message.PasswordResetForm;
 import org.ist.ur.org.auth.message.SignUpForm;
-import org.ist.ur.org.auth.model.PasswordResetToken;
 import org.ist.ur.org.auth.model.Role;
 import org.ist.ur.org.auth.model.RoleName;
 import org.ist.ur.org.auth.model.User;
@@ -15,6 +14,7 @@ import org.ist.ur.org.auth.security.JwtProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -99,7 +99,7 @@ public class AuthRestApi {
   }
 
   @GetMapping("/mist")
-  public String mist(){
+  public String mist() {
     return "Hi du verdammter Mistkerl";
   }
 
@@ -112,12 +112,41 @@ public class AuthRestApi {
     }
     logger.info("user found: " + user.getUsername() + " " + user.getEmail());
     userService.createPasswordResetTokenForUser(user);
-    return new ResponseEntity<>("Schauns ins Postfach", HttpStatus.I_AM_A_TEAPOT);
+    return new ResponseEntity<>("Schauns ins Postfach", HttpStatus.OK);
   }
 
-  @GetMapping("reset_password")
-  public void resetPassword(@RequestParam("token") String base64Token) {
+  @GetMapping(value = "/reset_password/{token}")
+  @ResponseStatus
+  public ResponseEntity resetPassword(@PathVariable("token") String base64Token, @RequestParam("email") String email) {
+    boolean tokenNotExpired = userService.checkResetToken(base64Token, email);
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("checked", "AuthRestApi");
+    if (tokenNotExpired == false) {
+      return ResponseEntity.unprocessableEntity().headers(headers).body("tja, abjeloofen");
+    } else if (tokenNotExpired) {
+      return ResponseEntity.accepted().headers(headers).body("perfekt");
+    } else {
+      return ResponseEntity.badRequest().headers(headers).body("mann");
+    }
+  }
 
+  @PutMapping("/reset_password/{token}")
+  @ResponseStatus
+  public ResponseEntity resetPassword(@Valid @RequestBody PasswordResetForm passwordResetForm, @PathVariable("token") String base64Token, @RequestParam("email") String email) {
+    logger.info("RESET_PASSWORD");
+    logger.info("form " + passwordResetForm.toString());
+    logger.info(passwordResetForm.getEmail());
+    logger.info("token " + base64Token);
+    logger.info("email " + email);
+    if (passwordResetForm.getPassword().equals(passwordResetForm.getPassword_confirmation())) {
+      User user = userRepo.findByEmail(passwordResetForm.getEmail());
+      user.setPassword(encoder.encode(passwordResetForm.getPassword()));
+      userRepo.save(user);
+      return ResponseEntity.status(HttpStatus.OK).body("passt alles");
+    } else {
+      logger.warn("password confirmation doesn't match");
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password confirmation does not match");
+    }
   }
 
 }

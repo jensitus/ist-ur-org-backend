@@ -91,5 +91,9 @@
             <column name="expiry_date" type="TIMESTAMP WITHOUT TIME ZONE"></column>
         </addColumn>
     </changeSet>
+    
+    <changeSet id="add_unique_constraint_to_password_reset_token" author="jensitus">
+        <addUniqueConstraint tableName="password_reset_token" columnNames="token" />
+    </changeSet>
 
 </databaseChangeLog>
