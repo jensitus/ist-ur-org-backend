@@ -1,5 +1,6 @@
 package org.ist.ur.org.auth.controller;
 
+import org.ist.ur.org.auth.dto.UserDto;
 import org.ist.ur.org.auth.message.JwtResponse;
 import org.ist.ur.org.auth.message.LoginForm;
 import org.ist.ur.org.auth.message.PasswordResetForm;
@@ -9,7 +10,8 @@ import org.ist.ur.org.auth.model.RoleName;
 import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.repository.RoleRepo;
 import org.ist.ur.org.auth.repository.UserRepo;
-import org.ist.ur.org.auth.repository.UserService;
+import org.ist.ur.org.auth.services.AuthService;
+import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +55,13 @@ public class AuthRestApi {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private AuthService authService;
+
   @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
-    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-    SecurityContextHolder.getContext().setAuthentication(authentication);
-    String jwt = jwtProvider.generateJwtToken(authentication);
-    return ResponseEntity.ok(new JwtResponse(jwt));
+  public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginForm loginForm) {
+    UserDto userDto = authService.getUserDtoWithJwt(loginForm);
+    return new ResponseEntity<>(new JwtResponse(userDto), HttpStatus.OK);
   }
 
   @PostMapping(value = "/signup", consumes = {})

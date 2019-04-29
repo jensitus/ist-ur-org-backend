@@ -1,7 +1,6 @@
-package org.ist.ur.org.auth.repository;
+package org.ist.ur.org.auth.services;
 
 import org.ist.ur.org.auth.model.User;
-import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 

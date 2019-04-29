@@ -1,21 +1,16 @@
-package org.ist.ur.org.auth.impl;
+package org.ist.ur.org.auth.serviceimpl;
 
 import io.jsonwebtoken.impl.Base64Codec;
-import lombok.var;
 import org.ist.ur.org.auth.model.PasswordResetToken;
 import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.repository.PasswordResetTokenRepo;
 import org.ist.ur.org.auth.repository.UserRepo;
-import org.ist.ur.org.auth.repository.UserService;
+import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
 import org.ist.ur.org.mailer.service.UrOrgMailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

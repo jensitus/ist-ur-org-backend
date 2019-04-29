@@ -16,7 +16,7 @@ public class UrOrgMailerImpl implements UrOrgMailer {
 
   private static final Logger logger = LoggerFactory.getLogger(UrOrgMailerImpl.class);
 
-  private static final String style = "<style>.container{max-width: 500px;border: 0px solid #999;border-radius: 5px;margin: 0px auto;} .general {padding: 15px;text-align:left;line-height:1.3em;font-family:verdana, arial, helvetica, sans-serif;font-size: 0.9em;}a{text-decoration: none;color: #0055ff;}</style>";
+  private static final String style = "<style>.container{max-width: 500px;border: 0px solid #999;border-radius: 5px;margin: 0px auto;} .general {padding: 11px;text-align:left;line-height:1.3em;font-family:verdana, arial, helvetica, sans-serif;font-size: 0.9em;}a{text-decoration: none;color: #0055ff;}</style>";
 
   private static final String FROM = "info@ist-ur.org";
 
