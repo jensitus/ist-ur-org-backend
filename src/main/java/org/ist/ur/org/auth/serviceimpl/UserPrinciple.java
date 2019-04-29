@@ -1,4 +1,4 @@
-package org.ist.ur.org.auth.services;
+package org.ist.ur.org.auth.serviceimpl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.ist.ur.org.auth.model.User;
