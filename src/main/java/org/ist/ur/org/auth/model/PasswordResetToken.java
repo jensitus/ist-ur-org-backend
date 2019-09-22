@@ -60,4 +60,14 @@ public class PasswordResetToken {
   public void setExpiryDate(LocalDateTime expiryDate) {
     this.expiryDate = expiryDate;
   }
+
+  @Override
+  public String toString() {
+    return "PasswordResetToken{" +
+            "id=" + id +
+            ", token='" + token + '\'' +
+            ", user=" + user +
+            ", expiryDate=" + expiryDate +
+            '}';
+  }
 }
