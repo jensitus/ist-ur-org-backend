@@ -42,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
     User user = userRepo.findByUsername(loginForm.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found with -> username or email: " + loginForm.getUsername()));
     UserDto userDto = modelMapper.map(user, UserDto.class);
     userDto.setAccessToken(jwt);
+    logger.info("user: " + userDto.getUsername() + " has successfully logged in");
     return userDto;
   }
 
