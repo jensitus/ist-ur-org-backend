@@ -7,7 +7,7 @@ import org.ist.ur.org.auth.repository.PasswordResetTokenRepo;
 import org.ist.ur.org.auth.repository.UserRepo;
 import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
-import org.ist.ur.org.common.RestPoints;
+import org.ist.ur.org.common.util.EmailStuff;
 import org.ist.ur.org.mailer.service.UrOrgMailer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +41,8 @@ public class UserServiceImpl implements UserService {
     LocalDateTime localDateTime = LocalDateTime.now();
     PasswordResetToken passwordResetToken = new PasswordResetToken(user, token, localDateTime);
     passwordResetTokenRepo.save(passwordResetToken);
-    String url = RestPoints.BACKENDURL.getValue() + "/reset-password/" + base64token + "/edit?email=" + user.getEmail();
-    String subject = "[ist-ur.org] reset instructions";
+    String url = EmailStuff.DOMAIN_FOR_URL + "/reset-password/" + base64token + "/edit?email=" + user.getEmail();
+    String subject = EmailStuff.SUBJECT_PREFIX + " reset instructions";
     String text = "click the fucking link below";
     urOrgMailer.getTheMailDetails(user.getEmail(), subject, text, user.getUsername(), url);
   }
