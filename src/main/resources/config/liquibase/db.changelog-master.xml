@@ -6,4 +6,5 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
   <include file="config/liquibase/changelog/create-user-table-changelog-1.0.xml"/>
+  <include file="config/liquibase/changelog/create-posting-table.xml"/>
 </databaseChangeLog> 

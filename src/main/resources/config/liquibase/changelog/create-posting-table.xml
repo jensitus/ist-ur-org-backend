@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create_posting-table" author="jensitus">
+        <createTable tableName="postings">
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" unique="true" />
+            </column>
+            <column name="user_id" type="BIGINT" />
+            <column name="content" type="clob" />
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" />
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" />
+        </createTable>
+        <createIndex tableName="postings" indexName="posting_user_id_index">
+            <column name="user_id" />
+        </createIndex>
+        <createIndex tableName="postings" indexName="posting_created_at_index">
+            <column name="created_at" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
