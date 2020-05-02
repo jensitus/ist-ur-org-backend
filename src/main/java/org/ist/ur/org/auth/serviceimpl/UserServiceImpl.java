@@ -1,6 +1,7 @@
 package org.ist.ur.org.auth.serviceimpl;
 
 import io.jsonwebtoken.impl.Base64Codec;
+import org.ist.ur.org.auth.dto.UserDto;
 import org.ist.ur.org.auth.model.PasswordResetToken;
 import org.ist.ur.org.auth.model.User;
 import org.ist.ur.org.auth.repository.PasswordResetTokenRepo;
@@ -9,9 +10,12 @@ import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
 import org.ist.ur.org.common.util.EmailStuff;
 import org.ist.ur.org.mailer.service.UrOrgMailer;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private UserRepo userRepo;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Override
   public void createPasswordResetTokenForUser(User user) {
@@ -62,6 +69,15 @@ public class UserServiceImpl implements UserService {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public UserDto getCurrentUser() {
+    UserDto userDto;
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    UserPrinciple userPrinciple = (UserPrinciple) auth.getPrincipal();
+    userDto = modelMapper.map(userPrinciple, UserDto.class);
+    return userDto;
   }
 
 }

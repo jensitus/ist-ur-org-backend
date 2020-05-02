@@ -1,5 +1,6 @@
 package org.ist.ur.org.posting.controller;
 
+import org.ist.ur.org.posting.dto.CreatePostingDto;
 import org.ist.ur.org.posting.dto.PostingDto;
 import org.ist.ur.org.posting.service.PostingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,14 @@ public class PostingRestApi {
   @Autowired
   private PostingService postingService;
 
-  @GetMapping("/{id}")
+  @GetMapping("/get/{id}")
   public ResponseEntity getPostingById(@PathVariable("id") Long postingId) {
     return new ResponseEntity<>(postingService.getPostingById(postingId), HttpStatus.OK);
+  }
+
+  @PostMapping("/create/")
+  public ResponseEntity createPosting(@RequestBody CreatePostingDto createPostingDto) {
+    return new ResponseEntity<>(postingService.createPosting(createPostingDto), HttpStatus.CREATED);
   }
 
 }
