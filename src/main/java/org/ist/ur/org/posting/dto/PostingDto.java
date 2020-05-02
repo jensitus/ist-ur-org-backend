@@ -1,27 +1,21 @@
-package org.ist.ur.org.posting.model;
+package org.ist.ur.org.posting.dto;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "postings")
-public class Posting {
+public class PostingDto {
 
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "user_id")
   private Long userId;
 
-  @Column(name = "content")
   private String content;
 
-  @Column(name = "created_at")
   private LocalDateTime createdAt;
 
-  @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
   public Long getId() {
@@ -64,4 +58,14 @@ public class Posting {
     this.updatedAt = updatedAt;
   }
 
+  @Override
+  public String toString() {
+    return "PostingDto{" +
+            "id=" + id +
+            ", userId=" + userId +
+            ", content='" + content + '\'' +
+            ", createdAt=" + createdAt +
+            ", updatedAt=" + updatedAt +
+            '}';
+  }
 }
