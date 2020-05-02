@@ -1,5 +1,7 @@
 package org.ist.ur.org.posting.model;
 
+import org.ist.ur.org.auth.model.User;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,8 +14,9 @@ public class Posting {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "user_id")
-  private Long userId;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @Column(name = "content")
   private String content;
@@ -32,12 +35,12 @@ public class Posting {
     this.id = id;
   }
 
-  public Long getUserId() {
-    return userId;
+  public User getUser() {
+    return user;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setUser(User user) {
+    this.user = user;
   }
 
   public String getContent() {
