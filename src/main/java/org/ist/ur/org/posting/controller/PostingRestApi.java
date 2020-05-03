@@ -26,4 +26,9 @@ public class PostingRestApi {
     return new ResponseEntity<>(postingService.createPosting(createPostingDto), HttpStatus.CREATED);
   }
 
+  @GetMapping("/all/")
+  public ResponseEntity getAllPostings() {
+    return new ResponseEntity<>(postingService.getAllPostings(), HttpStatus.OK);
+  }
+
 }

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostingServiceImpl implements PostingService {
@@ -40,5 +42,15 @@ public class PostingServiceImpl implements PostingService {
     posting.setCreatedAt(LocalDateTime.now());
     Posting p = postingRepo.save(posting);
     return modelMapper.map(p, PostingDto.class);
+  }
+
+  @Override
+  public List<PostingDto> getAllPostings() {
+    List<Posting> postings = postingRepo.findAll();
+    List<PostingDto> postingDtos = new ArrayList<>();
+    for (Posting posting : postings) {
+      postingDtos.add(modelMapper.map(posting, PostingDto.class));
+    }
+    return postingDtos;
   }
 }
