@@ -1,10 +1,7 @@
 package org.ist.ur.org.auth.controller;
 
 import org.ist.ur.org.auth.dto.UserDto;
-import org.ist.ur.org.auth.message.JwtResponse;
-import org.ist.ur.org.auth.message.LoginForm;
-import org.ist.ur.org.auth.message.PasswordResetForm;
-import org.ist.ur.org.auth.message.SignUpForm;
+import org.ist.ur.org.auth.message.*;
 import org.ist.ur.org.auth.model.Role;
 import org.ist.ur.org.auth.model.RoleName;
 import org.ist.ur.org.auth.model.User;
@@ -13,6 +10,7 @@ import org.ist.ur.org.auth.repository.UserRepo;
 import org.ist.ur.org.auth.services.AuthService;
 import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
+import org.ist.ur.org.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -149,6 +144,22 @@ public class AuthRestApi {
     } else {
       logger.warn("password confirmation doesn't match");
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("password confirmation does not match");
+    }
+  }
+
+  @PostMapping("/auth/check_auth_token")
+  public ResponseEntity checkTheAuthToken(@RequestBody String token) {
+    logger.info("we are checking the Token");
+    Message m = new Message();
+    boolean validToken = jwtProvider.validateJwtToken(token);
+    if (validToken) {
+      m.setText("Zum Donner, das funktioniert ja wirklich");
+      m.setBool(true);
+      return new ResponseEntity<>(m, HttpStatus.OK);
+    } else {
+      m.setText("Damn, your AuthToken is not valid anymore");
+      m.setBool(false);
+      return new ResponseEntity<>(m, HttpStatus.FORBIDDEN);
     }
   }
 
