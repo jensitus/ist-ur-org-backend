@@ -7,4 +7,5 @@
 
   <include file="config/liquibase/changelog/create-user-table-changelog-1.0.xml"/>
   <include file="config/liquibase/changelog/create-posting-table.xml"/>
-</databaseChangeLog> 
+  <include file="config/liquibase/changelog/create-relationship.xml" />
+</databaseChangeLog>
