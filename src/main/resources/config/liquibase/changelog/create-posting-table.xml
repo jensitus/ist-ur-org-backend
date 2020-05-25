@@ -24,4 +24,17 @@
         </createIndex>
     </changeSet>
 
+    <changeSet id="create_table_comments" author="jensitus">
+        <createTable tableName="comments">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="body" type="clob" />
+            <column name="user_id" type="BIGINT" />
+            <column name="posting_id" type="BIGINT" />
+            <column name="created_at" type="TIMESTAMP WITHOUT TIME ZONE" />
+            <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" />
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
