@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostingServiceImpl implements PostingService {
@@ -29,7 +30,7 @@ public class PostingServiceImpl implements PostingService {
   private UserService userService;
 
   @Override
-  public PostingDto getPostingById(Long postingId) {
+  public PostingDto getPostingById(UUID postingId) {
     return modelMapper.map(postingRepo.getOne(postingId), PostingDto.class);
   }
 

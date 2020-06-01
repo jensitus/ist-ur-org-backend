@@ -11,7 +11,7 @@ public class CommentDto {
 
   private String body;
 
-  private Posting posting;
+  private UUID postingId;
 
   private Long userId;
 
@@ -27,20 +27,12 @@ public class CommentDto {
     this.id = id;
   }
 
-  public String getBody() {
-    return body;
+  public UUID getPostingId() {
+    return postingId;
   }
 
-  public void setBody(String body) {
-    this.body = body;
-  }
-
-  public Posting getPosting() {
-    return posting;
-  }
-
-  public void setPosting(Posting posting) {
-    this.posting = posting;
+  public void setPostingId(UUID postingId) {
+    this.postingId = postingId;
   }
 
   public Long getUserId() {
@@ -49,6 +41,14 @@ public class CommentDto {
 
   public void setUserId(Long userId) {
     this.userId = userId;
+  }
+
+  public String getBody() {
+    return body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -72,7 +72,7 @@ public class CommentDto {
     return "CommentDto{" +
             "id=" + id +
             ", body='" + body + '\'' +
-            ", posting=" + posting +
+            ", postingId=" + postingId +
             ", userId=" + userId +
             ", createdAt=" + createdAt +
             ", updatedAt=" + updatedAt +

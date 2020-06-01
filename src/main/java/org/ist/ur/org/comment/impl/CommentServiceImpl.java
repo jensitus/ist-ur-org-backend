@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -39,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public List<CommentDto> commentsPerPosting(Long postingId) {
+  public List<CommentDto> commentsPerPosting(UUID postingId) {
     List<Comment> commentList = commentRepo.findByPostingIdOrderByCreatedAt(postingId);
     Type dtoListType = new TypeToken<List<CommentDto>>() {}.getType();
     return modelMapper.map(commentList, dtoListType);

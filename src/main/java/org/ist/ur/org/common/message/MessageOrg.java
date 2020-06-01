@@ -1,15 +1,15 @@
 package org.ist.ur.org.common.message;
 
-public class Message {
+public class MessageOrg {
 
   private String text;
 
   private Boolean bool;
 
-  public Message() {
+  public MessageOrg() {
   }
 
-  public Message(String text, Boolean bool) {
+  public MessageOrg(String text, Boolean bool) {
     this.text = text;
     this.bool = bool;
   }
