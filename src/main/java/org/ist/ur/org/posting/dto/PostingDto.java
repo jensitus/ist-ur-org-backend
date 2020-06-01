@@ -1,14 +1,13 @@
 package org.ist.ur.org.posting.dto;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class PostingDto {
 
-  private Long id;
+  private UUID id;
+
+  private Long slug;
 
   private Long userId;
 
@@ -18,12 +17,20 @@ public class PostingDto {
 
   private LocalDateTime updatedAt;
 
-  public Long getId() {
+  public UUID getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(UUID id) {
     this.id = id;
+  }
+
+  public Long getSlug() {
+    return slug;
+  }
+
+  public void setSlug(Long slug) {
+    this.slug = slug;
   }
 
   public Long getUserId() {
@@ -62,6 +69,7 @@ public class PostingDto {
   public String toString() {
     return "PostingDto{" +
             "id=" + id +
+            ", slug=" + slug +
             ", userId=" + userId +
             ", content='" + content + '\'' +
             ", createdAt=" + createdAt +

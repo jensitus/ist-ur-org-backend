@@ -1,9 +1,11 @@
 package org.ist.ur.org.comment.dto;
 
+import java.util.UUID;
+
 public class CreateCommentDto {
 
   private String body;
-  private Long postingId;
+  private UUID postingId;
   private Long userId;
 
   public String getBody() {
@@ -14,11 +16,11 @@ public class CreateCommentDto {
     this.body = body;
   }
 
-  public Long getPostingId() {
+  public UUID getPostingId() {
     return postingId;
   }
 
-  public void setPostingId(Long postingId) {
+  public void setPostingId(UUID postingId) {
     this.postingId = postingId;
   }
 

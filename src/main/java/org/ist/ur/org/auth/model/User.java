@@ -1,6 +1,7 @@
 package org.ist.ur.org.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.ist.ur.org.posting.model.Posting;
 
@@ -11,15 +12,21 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class User {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(name = "slug", length = 16, unique = true, nullable = false)
+  private UUID slug;
 
   @Column(name = "username")
   @NotBlank
@@ -57,6 +64,22 @@ public class User {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public UUID getSlug() {
+    return slug;
+  }
+
+  public void setSlug(UUID slug) {
+    this.slug = slug;
+  }
+
+  public List<Posting> getPostings() {
+    return postings;
+  }
+
+  public void setPostings(List<Posting> postings) {
+    this.postings = postings;
   }
 
   public String getUsername() {

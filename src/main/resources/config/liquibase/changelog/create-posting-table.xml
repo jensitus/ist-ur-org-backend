@@ -36,5 +36,57 @@
             <column name="updated_at" type="TIMESTAMP WITHOUT TIME ZONE" />
         </createTable>
     </changeSet>
+    <changeSet id="add_user_uuid_to_comments" author="jensitus">
+        <dropColumn tableName="comments" columnName="user_id" />
+        <addColumn tableName="comments">
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="add_uuid_to_postings" author="jensitus">
+        <dropPrimaryKey tableName="postings" constraintName="postings_pkey" />
+        <renameColumn tableName="postings" oldColumnName="id" newColumnName="slug" />
+        <addColumn tableName="postings">
+            <column name="id" type="UUID">
+                <constraints nullable="false" unique="true" primaryKey="true" />
+            </column>
+        </addColumn>
+        <dropColumn tableName="postings" columnName="user_id" />
+        <addColumn tableName="postings">
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="drop_and_renew_the_user_id" author="jensitus">
+        <dropColumn tableName="postings" columnName="user_id" />
+        <addColumn tableName="postings">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="add_auto_increment_to_slug" author="jensitus">
+        <addAutoIncrement tableName="postings" columnName="slug" />
+    </changeSet>
+    
+    <changeSet id="change_user_id_in_comment_table" author="jensitus">
+        <dropColumn tableName="comments" columnName="posting_id" />
+        <dropColumn tableName="comments" columnName="user_id" />
+        <addColumn tableName="comments">
+            <column name="posting_id" type="UUID">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+        <addColumn tableName="comments">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

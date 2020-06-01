@@ -1,8 +1,12 @@
 package org.ist.ur.org.auth.dto;
 
+import java.util.UUID;
+
 public class UserDto {
 
   private Long id;
+
+  private UUID slug;
 
   private String username;
 
@@ -19,6 +23,14 @@ public class UserDto {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public UUID getSlug() {
+    return slug;
+  }
+
+  public void setSlug(UUID slug) {
+    this.slug = slug;
   }
 
   public String getUsername() {
@@ -43,5 +55,16 @@ public class UserDto {
 
   public void setAccessToken(String accessToken) {
     this.accessToken = accessToken;
+  }
+
+  @Override
+  public String toString() {
+    return "UserDto{" +
+            "id=" + id +
+            ", slug=" + slug +
+            ", username='" + username + '\'' +
+            ", email='" + email + '\'' +
+            ", accessToken='" + accessToken + '\'' +
+            '}';
   }
 }

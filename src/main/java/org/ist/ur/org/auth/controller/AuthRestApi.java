@@ -10,7 +10,7 @@ import org.ist.ur.org.auth.repository.UserRepo;
 import org.ist.ur.org.auth.services.AuthService;
 import org.ist.ur.org.auth.services.UserService;
 import org.ist.ur.org.auth.security.JwtProvider;
-import org.ist.ur.org.common.message.Message;
+import org.ist.ur.org.common.message.MessageOrg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,7 +150,7 @@ public class AuthRestApi {
   @PostMapping("/auth/check_auth_token")
   public ResponseEntity checkTheAuthToken(@RequestBody String token) {
     logger.info("we are checking the Token");
-    Message m = new Message();
+    MessageOrg m = new MessageOrg();
     boolean validToken = jwtProvider.validateJwtToken(token);
     if (validToken) {
       m.setText("Zum Donner, das funktioniert ja wirklich");

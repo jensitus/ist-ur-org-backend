@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -26,7 +27,7 @@ public class CommentRestApi {
   }
 
   @GetMapping("/get/{posting_id}")
-  public ResponseEntity getCommentsPerPosting(@PathVariable("posting_id") Long postingId) {
+  public ResponseEntity getCommentsPerPosting(@PathVariable("posting_id") UUID postingId) {
     List<CommentDto> commentDtoList = commentService.commentsPerPosting(postingId);
     return new ResponseEntity<>(commentDtoList, HttpStatus.OK);
   }
