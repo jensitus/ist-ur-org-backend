@@ -60,40 +60,13 @@ public class AuthRestApi {
   }
 
   @PostMapping(value = "/signup", consumes = {})
-  public ResponseEntity<String> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
-
-    // check if user or email already present
-    if (userRepo.existsByUsername(signUpRequest.getUsername())) {
-      return new ResponseEntity<String>("Too Bad -> Username is already taken", HttpStatus.BAD_REQUEST);
+  public ResponseEntity<MessageOrg> registerUser(@Valid @RequestBody SignUpForm signUpRequest) {
+    MessageOrg m = authService.signUp(signUpRequest);
+    if (m.getBool()) {
+      return new ResponseEntity<>(m, HttpStatus.CREATED);
+    } else {
+      return new ResponseEntity<>(m, HttpStatus.BAD_REQUEST);
     }
-    if (userRepo.existsByEmail(signUpRequest.getEmail())) {
-      return new ResponseEntity<String>("It's a pity -> but this Email is already in use!", HttpStatus.BAD_REQUEST);
-    }
-
-    // create the new user:
-    logger.info("signUpRequest " + signUpRequest.toString());
-    User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
-    Role uRole = new Role(RoleName.ROLE_USER);
-    Set<String> roleSet = new HashSet<>();
-    roleSet.add(uRole.getName().toString());
-    signUpRequest.setRole(roleSet);
-    Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();
-    strRoles.forEach(role -> {
-      switch (role) {
-        case "admin":
-          Role adminRole = roleRepo.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new RuntimeException("The Fucking Role couldn't be found, sorry"));
-          roles.add(adminRole);
-          break;
-        default:
-          Role userRole = roleRepo.findByName(RoleName.ROLE_USER).orElseThrow(() -> new RuntimeException("No Role Today my Love is gone away"));
-          roles.add(userRole);
-      }
-    });
-    user.setRoles(roles);
-    userRepo.save(user);
-
-    return new ResponseEntity<String>("It is a god damn pretty cool", HttpStatus.CREATED);
   }
 
   @GetMapping("/mist")

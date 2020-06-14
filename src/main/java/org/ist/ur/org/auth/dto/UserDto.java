@@ -1,5 +1,12 @@
 package org.ist.ur.org.auth.dto;
 
+import org.ist.ur.org.auth.model.User;
+
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import java.util.List;
 import java.util.UUID;
 
 public class UserDto {
@@ -13,6 +20,10 @@ public class UserDto {
   private String email;
 
   private String accessToken;
+
+  private List<UserDto> follower;
+
+  private List<UserDto> followed;
 
   public UserDto() {
   }
@@ -57,6 +68,22 @@ public class UserDto {
     this.accessToken = accessToken;
   }
 
+  public List<UserDto> getFollower() {
+    return follower;
+  }
+
+  public void setFollower(List<UserDto> follower) {
+    this.follower = follower;
+  }
+
+  public List<UserDto> getFollowed() {
+    return followed;
+  }
+
+  public void setFollowed(List<UserDto> followed) {
+    this.followed = followed;
+  }
+
   @Override
   public String toString() {
     return "UserDto{" +
@@ -65,6 +92,8 @@ public class UserDto {
             ", username='" + username + '\'' +
             ", email='" + email + '\'' +
             ", accessToken='" + accessToken + '\'' +
+            ", follower=" + follower +
+            ", followed=" + followed +
             '}';
   }
 }
