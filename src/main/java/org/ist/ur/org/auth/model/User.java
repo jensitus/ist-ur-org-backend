@@ -1,6 +1,8 @@
 package org.ist.ur.org.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.ist.ur.org.posting.model.Posting;
@@ -9,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +19,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
 
   @Id
   @Column(name = "id")
@@ -48,6 +51,14 @@ public class User {
 
   @OneToMany(mappedBy = "user")
   private List<Posting> postings;
+
+//  @ManyToMany(fetch = FetchType.LAZY)
+//  @JoinTable(name = "followership", joinColumns = @JoinColumn(name = "follower_id"), inverseJoinColumns = @JoinColumn(name = "followed_id"))
+  // private List<User> follower;
+
+//  @ManyToMany(fetch = FetchType.LAZY)
+//  @JoinTable(name = "followership", joinColumns = @JoinColumn(name = "followed_id"), inverseJoinColumns = @JoinColumn(name = "follower_id"))
+  // private List<User> followed;
 
   protected User() {
   }
@@ -113,4 +124,5 @@ public class User {
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
   }
+
 }
